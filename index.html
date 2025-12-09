@@ -1,0 +1,1900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Wise 2026 Calendar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --accent: #E31837;
+            --accent-light: #fce8eb;
+            --accent-dark: #B71C1C;
+            --dark: #000000;
+            --gray-900: #1a1a1a;
+            --gray-700: #333333;
+            --gray-600: #4a4a4a;
+            --gray-500: #666666;
+            --gray-400: #888888;
+            --gray-300: #cccccc;
+            --gray-200: #e0e0e0;
+            --gray-100: #f0f0f0;
+            --gray-50: #f8f8f8;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.5;
+            padding: 20px;
+            padding-top: 100px;
+        }
+
+        /* Action Toolbar */
+        .toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(26,26,26,0.95) 100%);
+            backdrop-filter: blur(10px);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .toolbar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white);
+            margin-right: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toolbar-title img {
+            height: 28px;
+        }
+
+        .toolbar-title span {
+            color: var(--accent);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(227, 24, 55, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(227, 24, 55, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            animation: modalSlide 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--gray-400);
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--dark);
+        }
+
+        .download-options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .download-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .download-option:hover {
+            border-color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .download-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .download-icon.dark {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--gray-700) 100%);
+        }
+
+        .download-icon svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .download-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .download-info p {
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+
+        .tip-box {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .tip-box h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .tip-box p {
+            font-size: 13px;
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* Print Modal Specific Styles */
+        .print-settings {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .print-setting-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--gray-50);
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .print-setting-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--dark);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .print-setting-icon svg {
+            width: 18px;
+            height: 18px;
+            color: white;
+        }
+
+        .print-setting-icon.accent {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+        }
+
+        .print-setting-text {
+            flex: 1;
+        }
+
+        .print-setting-text strong {
+            display: block;
+            font-size: 14px;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+
+        .print-setting-text span {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .print-setting-check {
+            color: #22c55e;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--gray-600);
+            border: 1px solid var(--gray-300);
+        }
+
+        .btn-ghost:hover {
+            background: var(--gray-100);
+            color: var(--dark);
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 16px;
+            padding: 12px;
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper label {
+            font-size: 13px;
+            color: var(--gray-700);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+            color: var(--gray-400);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gray-200);
+        }
+
+        .action-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .action-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .action-option:hover {
+            border-color: var(--accent);
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(227, 24, 55, 0.15);
+        }
+
+        .action-option.selected {
+            border-color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .action-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--gray-700) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .action-icon.accent {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+        }
+
+        .action-icon svg {
+            width: 22px;
+            height: 22px;
+            color: white;
+        }
+
+        .action-info {
+            flex: 1;
+        }
+
+        .action-info h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+
+        .action-info p {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .action-arrow {
+            color: var(--gray-300);
+            transition: all 0.3s ease;
+        }
+
+        .action-option:hover .action-arrow {
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .page {
+            width: 297mm;
+            height: 210mm;
+            background: var(--white);
+            margin: 20px auto;
+            padding: 24px 32px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-xl), 0 0 0 1px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            page-break-after: always;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--dark) 100%);
+        }
+
+        /* Cover Styles */
+        .cover-page {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 100%);
+        }
+
+        .cover-page::before {
+            display: none;
+        }
+
+        .cover-page::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(227, 24, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .cover-logo {
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .cover-year {
+            font-family: 'Playfair Display', serif;
+            font-size: 200px;
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: -10px;
+            color: var(--dark);
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.1);
+        }
+
+        .cover-year span {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cover-subtitle {
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            color: var(--gray-500);
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cover-subtitle::before,
+        .cover-subtitle::after {
+            content: '';
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        .back-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-link {
+            margin-top: 24px;
+            font-size: 15px;
+            color: var(--gray-600);
+            text-decoration: none;
+            letter-spacing: 2px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        .back-copyright {
+            position: absolute;
+            bottom: 40px;
+            font-size: 11px;
+            color: var(--gray-400);
+            letter-spacing: 1px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--dark);
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .logo {
+            height: 36px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .year {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--white);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            background: var(--dark);
+            border-radius: 4px;
+        }
+
+        .month-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 82px;
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 0.85;
+            color: var(--dark);
+            position: relative;
+            margin-bottom: -5px;
+        }
+
+        /* Observances */
+        .observances {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            font-size: 11px;
+            color: var(--gray-600);
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .observances-label {
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+            white-space: nowrap;
+            font-size: 11px;
+        }
+
+        .observances-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 24px;
+        }
+
+        .observances-list span {
+            position: relative;
+            padding-left: 14px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .observances-list span::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px var(--accent-light);
+        }
+
+        /* Calendar Grid */
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: auto repeat(6, 1fr);
+            flex: 1;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .day-header {
+            padding: 10px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--white);
+            background: linear-gradient(180deg, var(--dark) 0%, var(--gray-900) 100%);
+            border-bottom: 1px solid var(--gray-300);
+        }
+
+        .day-header:not(:last-child) {
+            border-right: 1px solid var(--gray-700);
+        }
+
+        .day {
+            padding: 4px 6px;
+            border-right: 1px solid var(--gray-200);
+            border-bottom: 1px solid var(--gray-200);
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+            transition: background-color 0.2s ease;
+        }
+
+        .day:hover {
+            background: var(--gray-50);
+        }
+
+        .day:nth-child(7n) {
+            border-right: none;
+        }
+
+        .day:nth-last-child(-n+7) {
+            border-bottom: none;
+        }
+
+        .day.empty {
+            background: repeating-linear-gradient(
+                45deg,
+                var(--gray-50),
+                var(--gray-50) 2px,
+                var(--white) 2px,
+                var(--white) 8px
+            );
+        }
+
+        .day.weekend {
+            background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
+        }
+
+        .date {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 2px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 20px;
+            border-radius: 6px;
+        }
+
+        .day.weekend .date {
+            color: var(--gray-500);
+        }
+
+        .events {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .event {
+            font-size: 9.5px;
+            padding: 3px 5px;
+            background: #f4f4f4;
+            border-left: 3px solid var(--dark);
+            border-radius: 0 3px 3px 0;
+            color: #000000;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .event.highlight {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: white;
+            border-left: none;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 4px rgba(227, 24, 55, 0.3);
+            text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+        }
+
+        /* Print Styles */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+            
+            body {
+                background: white;
+                margin: 0;
+                padding: 0;
+                padding-top: 0;
+            }
+
+            .toolbar,
+            .modal-overlay {
+                display: none !important;
+            }
+
+            .page {
+                margin: 0;
+                border: none;
+                box-shadow: none;
+                border-radius: 0;
+                width: 297mm;
+                height: 210mm;
+                page-break-after: always;
+                page-break-inside: avoid;
+            }
+
+            .page::before {
+                border-radius: 0;
+            }
+        }
+
+        /* Responsive adjustments for screen display */
+        @media screen and (max-width: 1200px) {
+            .page {
+                width: 100%;
+                height: auto;
+                min-height: 210mm;
+                margin: 10px auto;
+            }
+
+            .toolbar {
+                flex-wrap: wrap;
+                padding: 12px 16px;
+            }
+
+            .toolbar-title {
+                width: 100%;
+                margin-bottom: 12px;
+                justify-content: center;
+                margin-right: 0;
+            }
+
+            .btn-group {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .btn span {
+                display: none;
+            }
+            
+            .btn {
+                padding: 12px;
+            }
+
+            .modal {
+                padding: 24px;
+            }
+
+            .download-option {
+                padding: 16px;
+            }
+
+            .download-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Action Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-title">
+            <img src="https://www.newswise.com/assets/newTheme/img/logo-newSkin.png" alt="Newswise">
+            <span>2026</span> Calendar
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-secondary" onclick="openDownloadModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                <span>Download</span>
+            </button>
+            <button class="btn btn-primary" onclick="openPrintModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                <span>Print</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Print Modal (Updated with Save option) -->
+    <div class="modal-overlay" id="printModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">🖨️ Print or Save Calendar</h2>
+                <button class="modal-close" onclick="closePrintModal()">&times;</button>
+            </div>
+            
+            <p style="color: var(--gray-600); margin-bottom: 20px; font-size: 14px;">
+                Choose how you'd like to get your calendar:
+            </p>
+
+            <div class="action-options">
+                <div class="action-option" onclick="proceedToPrint()">
+                    <div class="action-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                        </svg>
+                    </div>
+                    <div class="action-info">
+                        <h3>Print Calendar</h3>
+                        <p>Send directly to your printer</p>
+                    </div>
+                    <svg class="action-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
+
+                <div class="action-option" onclick="proceedToSavePDF()">
+                    <div class="action-icon accent">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="action-info">
+                        <h3>Save as PDF</h3>
+                        <p>Download a digital copy to your device</p>
+                    </div>
+                    <svg class="action-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="section-divider">Print Settings</div>
+
+            <div class="print-settings">
+                <div class="print-setting-item">
+                    <div class="print-setting-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                    </div>
+                    <div class="print-setting-text">
+                        <strong>Landscape Orientation</strong>
+                        <span>Rotate the page horizontally for best fit</span>
+                    </div>
+                    <svg class="print-setting-check" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+
+                <div class="print-setting-item">
+                    <div class="print-setting-icon accent">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6z" />
+                        </svg>
+                    </div>
+                    <div class="print-setting-text">
+                        <strong>Margins: None or Minimum</strong>
+                        <span>Allows the calendar to fill the entire page</span>
+                    </div>
+                    <svg class="print-setting-check" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+
+                <div class="print-setting-item">
+                    <div class="print-setting-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                        </svg>
+                    </div>
+                    <div class="print-setting-text">
+                        <strong>Background Graphics: ON</strong>
+                        <span>Enable to include colors and styling</span>
+                    </div>
+                    <svg class="print-setting-check" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>💡 Saving as PDF</h4>
+                <p>When the print dialog opens, select <strong>"Save as PDF"</strong> or <strong>"Microsoft Print to PDF"</strong> as your printer destination. This creates a high-quality digital copy you can share or print later!</p>
+            </div>
+
+            <div class="checkbox-wrapper" onclick="toggleDontShowAgain()">
+                <input type="checkbox" id="dontShowAgain">
+                <label for="dontShowAgain">Don't show this again (skip straight to print dialog)</label>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-ghost" onclick="closePrintModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Download Modal -->
+    <div class="modal-overlay" id="downloadModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Download Calendar</h2>
+                <button class="modal-close" onclick="closeDownloadModal()">&times;</button>
+            </div>
+            <div class="download-options">
+                <div class="download-option" onclick="downloadAsPDF()">
+                    <div class="download-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="download-info">
+                        <h3>Save as PDF</h3>
+                        <p>Opens print dialog — select "Save as PDF" as your printer</p>
+                    </div>
+                </div>
+                <div class="download-option" onclick="downloadAsHTML()">
+                    <div class="download-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                    </div>
+                    <div class="download-info">
+                        <h3>Download HTML File</h3>
+                        <p>Save the calendar as an HTML file to open in any browser</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tip-box">
+                <h4>💡 Pro Tip</h4>
+                <p>For the best print quality, use <strong>Landscape orientation</strong> and set margins to <strong>None</strong> in your print settings. Enable <strong>"Background graphics"</strong> to include colors and styling.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FRONT COVER -->
+    <div class="page cover-page">
+        <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="cover-logo">
+        <div class="cover-year">20<span>26</span></div>
+        <div class="cover-subtitle">Editorial Calendar</div>
+    </div>
+
+    <!-- JANUARY 2026 -->
+    <div class="page">
+        <div class="header">
+            <div class="brand">
+                <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo">
+                <span class="year">2026</span>
+            </div>
+            <h1 class="month-title">January</h1>
+        </div>
+        <div class="observances">
+            <span class="observances-label">This Month</span>
+            <div class="observances-list">
+                <span>Cervical Health Awareness Month</span>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sun</div><div class="day-header">Mon</div><div class="day-header">Tue</div><div class="day-header">Wed</div><div class="day-header">Thu</div><div class="day-header">Fri</div><div class="day-header">Sat</div>
+            <div class="day empty weekend"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day"><span class="date">1</span><div class="events"><div class="event highlight">New Year's Day</div></div></div>
+            <div class="day"><span class="date">2</span></div>
+            <div class="day weekend"><span class="date">3</span></div>
+            <div class="day weekend"><span class="date">4</span><div class="events"><div class="event">Golden Globes</div></div></div>
+            <div class="day"><span class="date">5</span></div>
+            <div class="day"><span class="date">6</span><div class="events"><div class="event">CES Begins</div></div></div>
+            <div class="day"><span class="date">7</span></div>
+            <div class="day"><span class="date">8</span></div>
+            <div class="day"><span class="date">9</span><div class="events"><div class="event">CES Ends</div></div></div>
+            <div class="day weekend"><span class="date">10</span></div>
+            <div class="day weekend"><span class="date">11</span></div>
+            <div class="day"><span class="date">12</span></div>
+            <div class="day"><span class="date">13</span></div>
+            <div class="day"><span class="date">14</span></div>
+            <div class="day"><span class="date">15</span><div class="events"><div class="event">World Econ Forum</div></div></div>
+            <div class="day"><span class="date">16</span></div>
+            <div class="day weekend"><span class="date">17</span></div>
+            <div class="day weekend"><span class="date">18</span><div class="events"><div class="event">World Religion Day</div></div></div>
+            <div class="day"><span class="date">19</span><div class="events"><div class="event highlight">MLK Jr. Day</div><div class="event">Australian Open</div></div></div>
+            <div class="day"><span class="date">20</span></div>
+            <div class="day"><span class="date">21</span></div>
+            <div class="day"><span class="date">22</span><div class="events"><div class="event">Sundance Begins</div><div class="event">Ukraine Unity Day</div></div></div>
+            <div class="day"><span class="date">23</span></div>
+            <div class="day weekend"><span class="date">24</span></div>
+            <div class="day weekend"><span class="date">25</span></div>
+            <div class="day"><span class="date">26</span></div>
+            <div class="day"><span class="date">27</span><div class="events"><div class="event highlight">Holocaust Remembrance</div></div></div>
+            <div class="day"><span class="date">28</span><div class="events"><div class="event">Intl Lego Day</div></div></div>
+            <div class="day"><span class="date">29</span></div>
+            <div class="day"><span class="date">30</span></div>
+            <div class="day weekend"><span class="date">31</span></div>
+        </div>
+    </div>
+
+    <!-- FEBRUARY 2026 -->
+    <div class="page">
+        <div class="header">
+            <div class="brand">
+                <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo">
+                <span class="year">2026</span>
+            </div>
+            <h1 class="month-title">February</h1>
+        </div>
+        <div class="observances">
+            <span class="observances-label">This Month</span>
+            <div class="observances-list">
+                <span>Black History Month</span>
+                <span>Winter Olympics (Milan-Cortina)</span>
+                <span>National Cancer Prevention Month</span>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sun</div><div class="day-header">Mon</div><div class="day-header">Tue</div><div class="day-header">Wed</div><div class="day-header">Thu</div><div class="day-header">Fri</div><div class="day-header">Sat</div>
+            <div class="day weekend"><span class="date">1</span><div class="events"><div class="event">Australian Open Ends</div></div></div>
+            <div class="day"><span class="date">2</span><div class="events"><div class="event">Groundhog Day</div><div class="event">World Wetlands Day</div></div></div>
+            <div class="day"><span class="date">3</span></div>
+            <div class="day"><span class="date">4</span><div class="events"><div class="event">World Cancer Day</div></div></div>
+            <div class="day"><span class="date">5</span></div>
+            <div class="day"><span class="date">6</span><div class="events"><div class="event highlight">Winter Olympics Begin</div></div></div>
+            <div class="day weekend"><span class="date">7</span></div>
+            <div class="day weekend"><span class="date">8</span><div class="events"><div class="event highlight">Super Bowl</div></div></div>
+            <div class="day"><span class="date">9</span></div>
+            <div class="day"><span class="date">10</span></div>
+            <div class="day"><span class="date">11</span><div class="events"><div class="event">Women in Science Day</div></div></div>
+            <div class="day"><span class="date">12</span></div>
+            <div class="day"><span class="date">13</span><div class="events"><div class="event">World Radio Day</div></div></div>
+            <div class="day weekend"><span class="date">14</span><div class="events"><div class="event highlight">Valentine's Day</div></div></div>
+            <div class="day weekend"><span class="date">15</span><div class="events"><div class="event">Grammy Awards</div></div></div>
+            <div class="day"><span class="date">16</span><div class="events"><div class="event highlight">Presidents' Day</div></div></div>
+            <div class="day"><span class="date">17</span><div class="events"><div class="event highlight">Lunar New Year</div><div class="event">Mardi Gras</div></div></div>
+            <div class="day"><span class="date">18</span><div class="events"><div class="event">Ash Wednesday</div></div></div>
+            <div class="day"><span class="date">19</span></div>
+            <div class="day"><span class="date">20</span><div class="events"><div class="event">Social Justice Day</div></div></div>
+            <div class="day weekend"><span class="date">21</span><div class="events"><div class="event">NBA All-Star</div></div></div>
+            <div class="day weekend"><span class="date">22</span><div class="events"><div class="event highlight">Winter Olympics End</div></div></div>
+            <div class="day"><span class="date">23</span><div class="events"><div class="event">Mobile World Congress</div></div></div>
+            <div class="day"><span class="date">24</span></div>
+            <div class="day"><span class="date">25</span></div>
+            <div class="day"><span class="date">26</span><div class="events"><div class="event">MWC Ends</div></div></div>
+            <div class="day"><span class="date">27</span></div>
+            <div class="day weekend"><span class="date">28</span><div class="events"><div class="event">Ramadan Begins</div></div></div>
+            <div class="day empty weekend"></div><div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="day empty"></div>
+        </div>
+    </div>
+
+    <!-- MARCH 2026 -->
+    <div class="page">
+        <div class="header">
+            <div class="brand">
+                <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo">
+                <span class="year">2026</span>
+            </div>
+            <h1 class="month-title">March</h1>
+        </div>
+        <div class="observances">
+            <span class="observances-label">This Month</span>
+            <div class="observances-list">
+                <span>Women's History Month</span>
+                <span>Disability Awareness</span>
+                <span>National Nutrition Month</span>
+                <span>Spring Breaks</span>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sun</div><div class="day-header">Mon</div><div class="day-header">Tue</div><div class="day-header">Wed</div><div class="day-header">Thu</div><div class="day-header">Fri</div><div class="day-header">Sat</div>
+            <div class="day weekend"><span class="date">1</span><div class="events"><div class="event highlight">Oscars</div></div></div>
+            <div class="day"><span class="date">2</span></div>
+            <div class="day"><span class="date">3</span><div class="events"><div class="event">World Wildlife Day</div></div></div>
+            <div class="day"><span class="date">4</span><div class="events"><div class="event">World Obesity Day</div></div></div>
+            <div class="day"><span class="date">5</span><div class="events"><div class="event">ITB Berlin Begins</div></div></div>
+            <div class="day"><span class="date">6</span><div class="events"><div class="event">Purim</div></div></div>
+            <div class="day weekend"><span class="date">7</span><div class="events"><div class="event">World Book Day</div></div></div>
+            <div class="day weekend"><span class="date">8</span><div class="events"><div class="event highlight">Intl Women's Day</div></div></div>
+            <div class="day"><span class="date">9</span></div>
+            <div class="day"><span class="date">10</span></div>
+            <div class="day"><span class="date">11</span></div>
+            <div class="day"><span class="date">12</span></div>
+            <div class="day"><span class="date">13</span><div class="events"><div class="event">SXSW Begins</div></div></div>
+            <div class="day weekend"><span class="date">14</span><div class="events"><div class="event highlight">Holi</div><div class="event">Pi Day</div></div></div>
+            <div class="day weekend"><span class="date">15</span><div class="events"><div class="event">World Sleep Day</div></div></div>
+            <div class="day"><span class="date">16</span></div>
+            <div class="day"><span class="date">17</span><div class="events"><div class="event highlight">St. Patrick's Day</div></div></div>
+            <div class="day"><span class="date">18</span><div class="events"><div class="event">Global Recycling Day</div></div></div>
+            <div class="day"><span class="date">19</span></div>
+            <div class="day"><span class="date">20</span><div class="events"><div class="event">Spring Equinox</div><div class="event">Day of Happiness</div></div></div>
+            <div class="day weekend"><span class="date">21</span><div class="events"><div class="event">Down Syndrome Day</div><div class="event">World Poetry Day</div></div></div>
+            <div class="day weekend"><span class="date">22</span><div class="events"><div class="event">World Water Day</div><div class="event">SXSW Ends</div></div></div>
+            <div class="day"><span class="date">23</span></div>
+            <div class="day"><span class="date">24</span></div>
+            <div class="day"><span class="date">25</span></div>
+            <div class="day"><span class="date">26</span></div>
+            <div class="day"><span class="date">27</span></div>
+            <div class="day weekend"><span class="date">28</span><div class="events"><div class="event">Earth Hour</div></div></div>
+            <div class="day weekend"><span class="date">29</span></div>
+            <div class="day"><span class="date">30</span><div class="events"><div class="event highlight">Eid al-Fitr</div><div class="event">Ramadan Ends</div></div></div>
+            <div class="day"><span class="date">31</span></div>
+        </div>
+    </div>
+
+    <!-- APRIL 2026 -->
+    <div class="page">
+        <div class="header">
+            <div class="brand">
+                <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo">
+                <span class="year">2026</span>
+            </div>
+            <h1 class="month-title">April</h1>
+        </div>
+        <div class="observances">
+            <span class="observances-label">This Month</span>
+            <div class="observances-list">
+                <span>Autism Awareness Month</span>
+                <span>Stress Awareness Month</span>
+                <span>Cancer Control Month</span>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sun</div><div class="day-header">Mon</div><div class="day-header">Tue</div><div class="day-header">Wed</div><div class="day-header">Thu</div><div class="day-header">Fri</div><div class="day-header">Sat</div>
+            <div class="day empty weekend"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day"><span class="date">1</span><div class="events"><div class="event">April Fool's Day</div></div></div>
+            <div class="day"><span class="date">2</span><div class="events"><div class="event highlight">Autism Awareness Day</div><div class="event">Passover Begins</div></div></div>
+            <div class="day"><span class="date">3</span><div class="events"><div class="event highlight">Good Friday</div></div></div>
+            <div class="day weekend"><span class="date">4</span></div>
+            <div class="day weekend"><span class="date">5</span><div class="events"><div class="event highlight">Easter Sunday</div></div></div>
+            <div class="day"><span class="date">6</span></div>
+            <div class="day"><span class="date">7</span></div>
+            <div class="day"><span class="date">8</span></div>
+            <div class="day"><span class="date">9</span><div class="events"><div class="event">Masters Golf Begins</div><div class="event">Passover Ends</div></div></div>
+            <div class="day"><span class="date">10</span><div class="events"><div class="event">Coachella Begins</div></div></div>
+            <div class="day weekend"><span class="date">11</span></div>
+            <div class="day weekend"><span class="date">12</span><div class="events"><div class="event">Masters Ends</div></div></div>
+            <div class="day"><span class="date">13</span></div>
+            <div class="day"><span class="date">14</span></div>
+            <div class="day"><span class="date">15</span><div class="events"><div class="event">Tax Day</div></div></div>
+            <div class="day"><span class="date">16</span></div>
+            <div class="day"><span class="date">17</span></div>
+            <div class="day weekend"><span class="date">18</span></div>
+            <div class="day weekend"><span class="date">19</span><div class="events"><div class="event">Coachella Ends</div></div></div>
+            <div class="day"><span class="date">20</span><div class="events"><div class="event">Boston Marathon</div></div></div>
+            <div class="day"><span class="date">21</span><div class="events"><div class="event">National Tea Day</div></div></div>
+            <div class="day"><span class="date">22</span><div class="events"><div class="event highlight">Earth Day</div></div></div>
+            <div class="day"><span class="date">23</span><div class="events"><div class="event">Shakespeare Day</div></div></div>
+            <div class="day"><span class="date">24</span></div>
+            <div class="day weekend"><span class="date">25</span></div>
+            <div class="day weekend"><span class="date">26</span></div>
+            <div class="day"><span class="date">27</span></div>
+            <div class="day"><span class="date">28</span></div>
+            <div class="day"><span class="date">29</span></div>
+            <div class="day"><span class="date">30</span></div>
+            <div class="day empty"></div><div class="day empty weekend"></div>
+        </div>
+    </div>
+
+    <!-- MAY 2026 -->
+    <div class="page">
+        <div class="header">
+            <div class="brand">
+                <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo">
+                <span class="year">2026</span>
+            </div>
+            <h1 class="month-title">May</h1>
+        </div>
+        <div class="observances">
+            <span class="observances-label">This Month</span>
+            <div class="observances-list">
+                <span>Mental Health Awareness</span>
+                <span>Asian Pacific Heritage</span>
+                <span>ALS Awareness</span>
+                <span>National Stroke Awareness</span>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sun</div><div class="day-header">Mon</div><div class="day-header">Tue</div><div class="day-header">Wed</div><div class="day-header">Thu</div><div class="day-header">Fri</div><div class="day-header">Sat</div>
+            <div class="day empty weekend"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day"><span class="date">1</span><div class="events"><div class="event">Melanoma Day</div></div></div>
+            <div class="day weekend"><span class="date">2</span><div class="events"><div class="event">Kentucky Derby</div></div></div>
+            <div class="day weekend"><span class="date">3</span><div class="events"><div class="event">Press Freedom Day</div></div></div>
+            <div class="day"><span class="date">4</span><div class="events"><div class="event">Star Wars Day</div></div></div>
+            <div class="day"><span class="date">5</span><div class="events"><div class="event highlight">Cinco de Mayo</div></div></div>
+            <div class="day"><span class="date">6</span></div>
+            <div class="day"><span class="date">7</span><div class="events"><div class="event">Small Business Week</div></div></div>
+            <div class="day"><span class="date">8</span></div>
+            <div class="day weekend"><span class="date">9</span><div class="events"><div class="event">Children's Mental Health</div></div></div>
+            <div class="day weekend"><span class="date">10</span><div class="events"><div class="event highlight">Mother's Day</div></div></div>
+            <div class="day"><span class="date">11</span></div>
+            <div class="day"><span class="date">12</span><div class="events"><div class="event">National Nurses Day</div></div></div>
+            <div class="day"><span class="date">13</span><div class="events"><div class="event">Cannes Film Festival</div></div></div>
+            <div class="day"><span class="date">14</span><div class="events"><div class="event">PGA Championship</div></div></div>
+            <div class="day"><span class="date">15</span><div class="events"><div class="event">Endangered Species Day</div></div></div>
+            <div class="day weekend"><span class="date">16</span></div>
+            <div class="day weekend"><span class="date">17</span><div class="events"><div class="event">PGA Ends</div></div></div>
+            <div class="day"><span class="date">18</span></div>
+            <div class="day"><span class="date">19</span></div>
+            <div class="day"><span class="date">20</span></div>
+            <div class="day"><span class="date">21</span></div>
+            <div class="day"><span class="date">22</span><div class="events"><div class="event">Shavuot</div></div></div>
+            <div class="day weekend"><span class="date">23</span></div>
+            <div class="day weekend"><span class="date">24</span><div class="events"><div class="event">Indianapolis 500</div><div class="event">Cannes Ends</div></div></div>
+            <div class="day"><span class="date">25</span><div class="events"><div class="event highlight">Memorial Day</div><div class="event">Africa Day</div></div></div>
+            <div class="day"><span class="date">26</span></div>
+            <div class="day"><span class="date">27</span></div>
+            <div class="day"><span class="date">28</span><div class="events"><div class="event">Amnesty Intl Day</div></div></div>
+            <div class="day"><span class="date">29</span></div>
+            <div class="day weekend"><span class="date">30</span></div>
+            <div class="day weekend"><span class="date">31</span><div class="events"><div class="event">ASCO Conference</div></div></div>
+        </div>
+    </div>
+
+    <!-- JUNE 2026 -->
+    <div class="page">
+        <div class="header">
+            <div class="brand">
+                <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo">
+                <span class="year">2026</span>
+            </div>
+            <h1 class="month-title">June</h1>
+        </div>
+        <div class="observances">
+            <span class="observances-label">This Month</span>
+            <div class="observances-list">
+                <span>Pride Month</span>
+                <span>FIFA World Cup 2026 (USA/CAN/MEX)</span>
+                <span>Alzheimer's & Brain Awareness Month</span>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sun</div><div class="day-header">Mon</div><div class="day-header">Tue</div><div class="day-header">Wed</div><div class="day-header">Thu</div><div class="day-header">Fri</div><div class="day-header">Sat</div>
+            <div class="day empty weekend"></div>
+            <div class="day"><span class="date">1</span><div class="events"><div class="event">Intl Dinosaur Day</div></div></div>
+            <div class="day"><span class="date">2</span></div>
+            <div class="day"><span class="date">3</span></div>
+            <div class="day"><span class="date">4</span></div>
+            <div class="day"><span class="date">5</span><div class="events"><div class="event highlight">World Environment Day</div></div></div>
+            <div class="day weekend"><span class="date">6</span><div class="events"><div class="event highlight">Eid al-Adha</div></div></div>
+            <div class="day weekend"><span class="date">7</span><div class="events"><div class="event">Cancer Survivors Day</div></div></div>
+            <div class="day"><span class="date">8</span><div class="events"><div class="event">World Oceans Day</div></div></div>
+            <div class="day"><span class="date">9</span></div>
+            <div class="day"><span class="date">10</span></div>
+            <div class="day"><span class="date">11</span><div class="events"><div class="event highlight">FIFA World Cup Begins</div></div></div>
+            <div class="day"><span class="date">12</span></div>
+            <div class="day weekend"><span class="date">13</span></div>
+            <div class="day weekend"><span class="date">14</span></div>
+            <div class="day"><span class="date">15</span><div class="events"><div class="event">Cannes Lions</div></div></div>
+            <div class="day"><span class="date">16</span></div>
+            <div class="day"><span class="date">17</span></div>
+            <div class="day"><span class="date">18</span><div class="events"><div class="event">US Open Golf</div><div class="event">Autistic Pride Day</div></div></div>
+            <div class="day"><span class="date">19</span><div class="events"><div class="event highlight">Juneteenth</div></div></div>
+            <div class="day weekend"><span class="date">20</span><div class="events"><div class="event">Summer Solstice</div></div></div>
+            <div class="day weekend"><span class="date">21</span><div class="events"><div class="event highlight">Father's Day</div><div class="event">Dog to Work Day</div></div></div>
+            <div class="day"><span class="date">22</span></div>
+            <div class="day"><span class="date">23</span></div>
+            <div class="day"><span class="date">24</span></div>
+            <div class="day"><span class="date">25</span></div>
+            <div class="day"><span class="date">26</span><div class="events"><div class="event">Islamic New Year</div></div></div>
+            <div class="day weekend"><span class="date">27</span><div class="events"><div class="event highlight">Pride Day</div></div></div>
+            <div class="day weekend"><span class="date">28</span></div>
+            <div class="day"><span class="date">29</span></div>
+            <div class="day"><span class="date">30</span></div>
+            <div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="day empty weekend"></div>
+        </div>
+    </div>
+
+    <!-- JULY 2026 -->
+    <div class="page">
+        <div class="header">
+            <div class="brand">
+                <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo">
+                <span class="year">2026</span>
+            </div>
+            <h1 class="month-title">July</h1>
+        </div>
+        <div class="observances">
+            <span class="observances-label">This Month</span>
+            <div class="observances-list">
+                <span>FIFA World Cup 2026</span>
+                <span>Wimbledon</span>
+                <span>Tour de France</span>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sun</div><div class="day-header">Mon</div><div class="day-header">Tue</div><div class="day-header">Wed</div><div class="day-header">Thu</div><div class="day-header">Fri</div><div class="day-header">Sat</div>
+            <div class="day empty weekend"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day"><span class="date">1</span><div class="events"><div class="event">Canada Day</div></div></div>
+            <div class="day"><span class="date">2</span><div class="events"><div class="event">World UFO Day</div></div></div>
+            <div class="day"><span class="date">3</span><div class="events"><div class="event">Tour de France</div></div></div>
+            <div class="day weekend"><span class="date">4</span><div class="events"><div class="event highlight">Independence Day</div></div></div>
+            <div class="day weekend"><span class="date">5</span></div>
+            <div class="day"><span class="date">6</span><div class="events"><div class="event">Wimbledon</div></div></div>
+            <div class="day"><span class="date">7</span></div>
+            <div class="day"><span class="date">8</span></div>
+            <div class="day"><span class="date">9</span></div>
+            <div class="day"><span class="date">10</span></div>
+            <div class="day weekend"><span class="date">11</span><div class="events"><div class="event">World Population Day</div></div></div>
+            <div class="day weekend"><span class="date">12</span><div class="events"><div class="event highlight">FIFA World Cup Final</div></div></div>
+            <div class="day"><span class="date">13</span></div>
+            <div class="day"><span class="date">14</span><div class="events"><div class="event highlight">Bastille Day</div></div></div>
+            <div class="day"><span class="date">15</span></div>
+            <div class="day"><span class="date">16</span></div>
+            <div class="day"><span class="date">17</span><div class="events"><div class="event">Intl Justice Day</div></div></div>
+            <div class="day weekend"><span class="date">18</span><div class="events"><div class="event">Mandela Day</div></div></div>
+            <div class="day weekend"><span class="date">19</span><div class="events"><div class="event">Wimbledon Ends</div></div></div>
+            <div class="day"><span class="date">20</span><div class="events"><div class="event">Space Exploration Day</div></div></div>
+            <div class="day"><span class="date">21</span><div class="events"><div class="event">MLB All-Star Game</div></div></div>
+            <div class="day"><span class="date">22</span></div>
+            <div class="day"><span class="date">23</span><div class="events"><div class="event">Comic-Con Begins</div></div></div>
+            <div class="day"><span class="date">24</span><div class="events"><div class="event">Intl Self-Care Day</div></div></div>
+            <div class="day weekend"><span class="date">25</span></div>
+            <div class="day weekend"><span class="date">26</span><div class="events"><div class="event">Tour de France Ends</div><div class="event">Comic-Con Ends</div></div></div>
+            <div class="day"><span class="date">27</span></div>
+            <div class="day"><span class="date">28</span><div class="events"><div class="event">Nature Conservation</div></div></div>
+            <div class="day"><span class="date">29</span></div>
+            <div class="day"><span class="date">30</span><div class="events"><div class="event">Intl Friendship Day</div></div></div>
+            <div class="day"><span class="date">31</span></div>
+        </div>
+    </div>
+
+    <!-- AUGUST 2026 -->
+    <div class="page">
+        <div class="header">
+            <div class="brand">
+                <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo">
+                <span class="year">2026</span>
+            </div>
+            <h1 class="month-title">August</h1>
+        </div>
+        <div class="observances">
+            <span class="observances-label">This Month</span>
+            <div class="observances-list">
+                <span>Summer Sun Safety Month</span>
+                <span>National Breastfeeding Month</span>
+                <span>Immunization Awareness</span>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sun</div><div class="day-header">Mon</div><div class="day-header">Tue</div><div class="day-header">Wed</div><div class="day-header">Thu</div><div class="day-header">Fri</div><div class="day-header">Sat</div>
+            <div class="day empty weekend"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day weekend"><span class="date">1</span><div class="events"><div class="event">Lollapalooza</div></div></div>
+            <div class="day weekend"><span class="date">2</span></div>
+            <div class="day"><span class="date">3</span></div>
+            <div class="day"><span class="date">4</span><div class="events"><div class="event">Lollapalooza Ends</div></div></div>
+            <div class="day"><span class="date">5</span><div class="events"><div class="event">Copenhagen Fashion</div></div></div>
+            <div class="day"><span class="date">6</span><div class="events"><div class="event">Friendship Day</div></div></div>
+            <div class="day"><span class="date">7</span></div>
+            <div class="day weekend"><span class="date">8</span><div class="events"><div class="event">World Cat Day</div></div></div>
+            <div class="day weekend"><span class="date">9</span><div class="events"><div class="event">Indigenous Peoples Day</div></div></div>
+            <div class="day"><span class="date">10</span></div>
+            <div class="day"><span class="date">11</span></div>
+            <div class="day"><span class="date">12</span><div class="events"><div class="event">International Youth Day</div></div></div>
+            <div class="day"><span class="date">13</span></div>
+            <div class="day"><span class="date">14</span></div>
+            <div class="day weekend"><span class="date">15</span><div class="events"><div class="event">Back to School Day</div></div></div>
+            <div class="day weekend"><span class="date">16</span></div>
+            <div class="day"><span class="date">17</span></div>
+            <div class="day"><span class="date">18</span></div>
+            <div class="day"><span class="date">19</span><div class="events"><div class="event highlight">World Humanitarian Day</div></div></div>
+            <div class="day"><span class="date">20</span></div>
+            <div class="day"><span class="date">21</span><div class="events"><div class="event">Senior Citizen Day</div></div></div>
+            <div class="day weekend"><span class="date">22</span></div>
+            <div class="day weekend"><span class="date">23</span><div class="events"><div class="event">Burning Man</div></div></div>
+            <div class="day"><span class="date">24</span></div>
+            <div class="day"><span class="date">25</span></div>
+            <div class="day"><span class="date">26</span><div class="events"><div class="event">Intl Dog Day</div></div></div>
+            <div class="day"><span class="date">27</span></div>
+            <div class="day"><span class="date">28</span></div>
+            <div class="day weekend"><span class="date">29</span></div>
+            <div class="day weekend"><span class="date">30</span></div>
+            <div class="day"><span class="date">31</span><div class="events"><div class="event">US Open Tennis</div><div class="event">Intl Bacon Day</div></div></div>
+        </div>
+    </div>
+
+    <!-- SEPTEMBER 2026 -->
+    <div class="page">
+        <div class="header">
+            <div class="brand">
+                <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo">
+                <span class="year">2026</span>
+            </div>
+            <h1 class="month-title">September</h1>
+        </div>
+        <div class="observances">
+            <span class="observances-label">This Month</span>
+            <div class="observances-list">
+                <span>Childhood Obesity Awareness</span>
+                <span>Childhood Cancer Awareness</span>
+                <span>Pain Awareness Month</span>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sun</div><div class="day-header">Mon</div><div class="day-header">Tue</div><div class="day-header">Wed</div><div class="day-header">Thu</div><div class="day-header">Fri</div><div class="day-header">Sat</div>
+            <div class="day empty weekend"></div>
+            <div class="day empty"></div>
+            <div class="day"><span class="date">1</span><div class="events"><div class="event">Burning Man Ends</div></div></div>
+            <div class="day"><span class="date">2</span></div>
+            <div class="day"><span class="date">3</span></div>
+            <div class="day"><span class="date">4</span><div class="events"><div class="event">National Wildlife Day</div></div></div>
+            <div class="day weekend"><span class="date">5</span><div class="events"><div class="event">Intl Day of Charity</div></div></div>
+            <div class="day weekend"><span class="date">6</span><div class="events"><div class="event">World Beard Day</div></div></div>
+            <div class="day"><span class="date">7</span><div class="events"><div class="event highlight">Labor Day</div></div></div>
+            <div class="day"><span class="date">8</span></div>
+            <div class="day"><span class="date">9</span></div>
+            <div class="day"><span class="date">10</span><div class="events"><div class="event highlight">Suicide Prevention Day</div></div></div>
+            <div class="day"><span class="date">11</span></div>
+            <div class="day weekend"><span class="date">12</span><div class="events"><div class="event highlight">Rosh Hashanah</div></div></div>
+            <div class="day weekend"><span class="date">13</span><div class="events"><div class="event">US Open Ends</div></div></div>
+            <div class="day"><span class="date">14</span><div class="events"><div class="event">National Sober Day</div></div></div>
+            <div class="day"><span class="date">15</span><div class="events"><div class="event">Greenpeace Day</div></div></div>
+            <div class="day"><span class="date">16</span><div class="events"><div class="event">World Ozone Day</div></div></div>
+            <div class="day"><span class="date">17</span></div>
+            <div class="day"><span class="date">18</span><div class="events"><div class="event">Equal Pay Day</div></div></div>
+            <div class="day weekend"><span class="date">19</span><div class="events"><div class="event">Oktoberfest</div></div></div>
+            <div class="day weekend"><span class="date">20</span></div>
+            <div class="day"><span class="date">21</span><div class="events"><div class="event highlight">World Peace Day</div><div class="event highlight">Yom Kippur</div></div></div>
+            <div class="day"><span class="date">22</span><div class="events"><div class="event">Autumnal Equinox</div></div></div>
+            <div class="day"><span class="date">23</span><div class="events"><div class="event">Bi Visibility Day</div></div></div>
+            <div class="day"><span class="date">24</span></div>
+            <div class="day"><span class="date">25</span></div>
+            <div class="day weekend"><span class="date">26</span><div class="events"><div class="event">Sukkot</div><div class="event">Day of the Deaf</div></div></div>
+            <div class="day weekend"><span class="date">27</span></div>
+            <div class="day"><span class="date">28</span></div>
+            <div class="day"><span class="date">29</span></div>
+            <div class="day"><span class="date">30</span></div>
+            <div class="day empty"></div><div class="day empty"></div><div class="day empty weekend"></div>
+        </div>
+    </div>
+
+    <!-- OCTOBER 2026 -->
+    <div class="page">
+        <div class="header">
+            <div class="brand">
+                <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo">
+                <span class="year">2026</span>
+            </div>
+            <h1 class="month-title">October</h1>
+        </div>
+        <div class="observances">
+            <span class="observances-label">This Month</span>
+            <div class="observances-list">
+                <span>Nobel Prize Announcements</span>
+                <span>Breast Cancer Awareness</span>
+                <span>Emotional Wellness Month</span>
+                <span>ADHD Awareness</span>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sun</div><div class="day-header">Mon</div><div class="day-header">Tue</div><div class="day-header">Wed</div><div class="day-header">Thu</div><div class="day-header">Fri</div><div class="day-header">Sat</div>
+            <div class="day empty weekend"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day"><span class="date">1</span><div class="events"><div class="event">Intl Coffee Day</div></div></div>
+            <div class="day"><span class="date">2</span></div>
+            <div class="day weekend"><span class="date">3</span><div class="events"><div class="event">Sukkot Ends</div></div></div>
+            <div class="day weekend"><span class="date">4</span><div class="events"><div class="event">World Space Week</div><div class="event">Oktoberfest Ends</div></div></div>
+            <div class="day"><span class="date">5</span><div class="events"><div class="event">World Teachers' Day</div></div></div>
+            <div class="day"><span class="date">6</span><div class="events"><div class="event">Mental Health Week</div></div></div>
+            <div class="day"><span class="date">7</span></div>
+            <div class="day"><span class="date">8</span></div>
+            <div class="day"><span class="date">9</span><div class="events"><div class="event">Intl Beer & Pizza Day</div></div></div>
+            <div class="day weekend"><span class="date">10</span><div class="events"><div class="event highlight">World Mental Health Day</div></div></div>
+            <div class="day weekend"><span class="date">11</span><div class="events"><div class="event">Coming Out Day</div></div></div>
+            <div class="day"><span class="date">12</span><div class="events"><div class="event highlight">Columbus Day</div><div class="event">Indigenous Peoples Day</div></div></div>
+            <div class="day"><span class="date">13</span></div>
+            <div class="day"><span class="date">14</span></div>
+            <div class="day"><span class="date">15</span></div>
+            <div class="day"><span class="date">16</span><div class="events"><div class="event">World Food Day</div></div></div>
+            <div class="day weekend"><span class="date">17</span></div>
+            <div class="day weekend"><span class="date">18</span></div>
+            <div class="day"><span class="date">19</span></div>
+            <div class="day"><span class="date">20</span><div class="events"><div class="event highlight">Diwali</div></div></div>
+            <div class="day"><span class="date">21</span></div>
+            <div class="day"><span class="date">22</span></div>
+            <div class="day"><span class="date">23</span></div>
+            <div class="day weekend"><span class="date">24</span><div class="events"><div class="event">Media Literacy Week</div></div></div>
+            <div class="day weekend"><span class="date">25</span></div>
+            <div class="day"><span class="date">26</span></div>
+            <div class="day"><span class="date">27</span></div>
+            <div class="day"><span class="date">28</span></div>
+            <div class="day"><span class="date">29</span></div>
+            <div class="day"><span class="date">30</span></div>
+            <div class="day weekend"><span class="date">31</span><div class="events"><div class="event highlight">Halloween</div></div></div>
+        </div>
+    </div>
+
+    <!-- NOVEMBER 2026 -->
+    <div class="page">
+        <div class="header">
+            <div class="brand">
+                <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo">
+                <span class="year">2026</span>
+            </div>
+            <h1 class="month-title">November</h1>
+        </div>
+        <div class="observances">
+            <span class="observances-label">This Month</span>
+            <div class="observances-list">
+                <span>National Diabetes Month</span>
+                <span>Movember</span>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sun</div><div class="day-header">Mon</div><div class="day-header">Tue</div><div class="day-header">Wed</div><div class="day-header">Thu</div><div class="day-header">Fri</div><div class="day-header">Sat</div>
+            <div class="day weekend"><span class="date">1</span><div class="events"><div class="event">World Vegan Day</div><div class="event">NYC Marathon</div></div></div>
+            <div class="day"><span class="date">2</span></div>
+            <div class="day"><span class="date">3</span><div class="events"><div class="event highlight">US Elections</div></div></div>
+            <div class="day"><span class="date">4</span></div>
+            <div class="day"><span class="date">5</span></div>
+            <div class="day"><span class="date">6</span></div>
+            <div class="day weekend"><span class="date">7</span></div>
+            <div class="day weekend"><span class="date">8</span></div>
+            <div class="day"><span class="date">9</span><div class="events"><div class="event highlight">UN Climate Conf</div></div></div>
+            <div class="day"><span class="date">10</span></div>
+            <div class="day"><span class="date">11</span><div class="events"><div class="event highlight">Veterans Day</div></div></div>
+            <div class="day"><span class="date">12</span></div>
+            <div class="day"><span class="date">13</span><div class="events"><div class="event">World Kindness Day</div></div></div>
+            <div class="day weekend"><span class="date">14</span></div>
+            <div class="day weekend"><span class="date">15</span></div>
+            <div class="day"><span class="date">16</span></div>
+            <div class="day"><span class="date">17</span></div>
+            <div class="day"><span class="date">18</span></div>
+            <div class="day"><span class="date">19</span></div>
+            <div class="day"><span class="date">20</span><div class="events"><div class="event">F1 Las Vegas</div><div class="event">Climate Conf Ends</div></div></div>
+            <div class="day weekend"><span class="date">21</span></div>
+            <div class="day weekend"><span class="date">22</span><div class="events"><div class="event">Stop Violence Day</div></div></div>
+            <div class="day"><span class="date">23</span></div>
+            <div class="day"><span class="date">24</span></div>
+            <div class="day"><span class="date">25</span></div>
+            <div class="day"><span class="date">26</span><div class="events"><div class="event highlight">Thanksgiving</div></div></div>
+            <div class="day"><span class="date">27</span><div class="events"><div class="event highlight">Black Friday</div></div></div>
+            <div class="day weekend"><span class="date">28</span><div class="events"><div class="event">Small Business Saturday</div></div></div>
+            <div class="day weekend"><span class="date">29</span></div>
+            <div class="day"><span class="date">30</span><div class="events"><div class="event">Cyber Monday</div></div></div>
+            <div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="day empty"></div><div class="day empty weekend"></div>
+        </div>
+    </div>
+
+    <!-- DECEMBER 2026 -->
+    <div class="page">
+        <div class="header">
+            <div class="brand">
+                <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo">
+                <span class="year">2026</span>
+            </div>
+            <h1 class="month-title">December</h1>
+        </div>
+        <div class="observances">
+            <span class="observances-label">This Month</span>
+            <div class="observances-list">
+                <span>Christmas</span>
+                <span>Hanukkah</span>
+                <span>Kwanzaa</span>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="day-header">Sun</div><div class="day-header">Mon</div><div class="day-header">Tue</div><div class="day-header">Wed</div><div class="day-header">Thu</div><div class="day-header">Fri</div><div class="day-header">Sat</div>
+            <div class="day empty weekend"></div>
+            <div class="day empty"></div>
+            <div class="day"><span class="date">1</span><div class="events"><div class="event highlight">World AIDS Day</div><div class="event">Giving Tuesday</div></div></div>
+            <div class="day"><span class="date">2</span></div>
+            <div class="day"><span class="date">3</span></div>
+            <div class="day"><span class="date">4</span></div>
+            <div class="day weekend"><span class="date">5</span><div class="events"><div class="event highlight">Hanukkah Begins</div></div></div>
+            <div class="day weekend"><span class="date">6</span><div class="events"><div class="event">F1 Abu Dhabi</div></div></div>
+            <div class="day"><span class="date">7</span></div>
+            <div class="day"><span class="date">8</span></div>
+            <div class="day"><span class="date">9</span></div>
+            <div class="day"><span class="date">10</span></div>
+            <div class="day"><span class="date">11</span></div>
+            <div class="day weekend"><span class="date">12</span></div>
+            <div class="day weekend"><span class="date">13</span><div class="events"><div class="event">Hanukkah Ends</div></div></div>
+            <div class="day"><span class="date">14</span></div>
+            <div class="day"><span class="date">15</span></div>
+            <div class="day"><span class="date">16</span></div>
+            <div class="day"><span class="date">17</span></div>
+            <div class="day"><span class="date">18</span></div>
+            <div class="day weekend"><span class="date">19</span><div class="events"><div class="event">Super Saturday</div></div></div>
+            <div class="day weekend"><span class="date">20</span></div>
+            <div class="day"><span class="date">21</span><div class="events"><div class="event">Winter Solstice</div></div></div>
+            <div class="day"><span class="date">22</span></div>
+            <div class="day"><span class="date">23</span><div class="events"><div class="event">Festivus</div></div></div>
+            <div class="day"><span class="date">24</span><div class="events"><div class="event highlight">Christmas Eve</div></div></div>
+            <div class="day"><span class="date">25</span><div class="events"><div class="event highlight">Christmas Day</div></div></div>
+            <div class="day weekend"><span class="date">26</span><div class="events"><div class="event">Boxing Day</div><div class="event">Kwanzaa Begins</div></div></div>
+            <div class="day weekend"><span class="date">27</span></div>
+            <div class="day"><span class="date">28</span></div>
+            <div class="day"><span class="date">29</span></div>
+            <div class="day"><span class="date">30</span></div>
+            <div class="day"><span class="date">31</span><div class="events"><div class="event highlight">New Year's Eve</div></div></div>
+            <div class="day empty"></div><div class="day empty weekend"></div>
+        </div>
+    </div>
+
+    <!-- BACK COVER -->
+    <div class="page cover-page">
+        <div class="back-content">
+            <img src="https://github.com/jacirayara/Image/blob/main/News%20Wise.png?raw=true" alt="Newswise" class="logo" style="height: 55px; margin-bottom: 24px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">
+            <a href="https://www.newswise.com" class="back-link">www.newswise.com</a>
+            <div class="back-copyright">&copy; 2026 News Wise. All Rights Reserved.</div>
+        </div>
+    </div>
+
+    <script>
+        // Check localStorage for "don't show again" preference
+        const SKIP_PRINT_MODAL_KEY = 'skipPrintModal';
+
+        function openPrintModal() {
+            // Check if user wants to skip the modal
+            if (localStorage.getItem(SKIP_PRINT_MODAL_KEY) === 'true') {
+                window.print();
+                return;
+            }
+            document.getElementById('printModal').classList.add('active');
+        }
+
+        function closePrintModal() {
+            document.getElementById('printModal').classList.remove('active');
+        }
+
+        function proceedToPrint() {
+            // Check if "don't show again" is checked
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem(SKIP_PRINT_MODAL_KEY, 'true');
+            }
+            closePrintModal();
+            setTimeout(() => {
+                window.print();
+            }, 300);
+        }
+
+        function proceedToSavePDF() {
+            // Check if "don't show again" is checked
+            const dontShowAgain = document.getElementById('dontShowAgain').checked;
+            if (dontShowAgain) {
+                localStorage.setItem(SKIP_PRINT_MODAL_KEY, 'true');
+            }
+            closePrintModal();
+            setTimeout(() => {
+                // Show a brief instruction toast/alert before opening print dialog
+                alert('In the print dialog, select "Save as PDF" or "Microsoft Print to PDF" as your printer to save the calendar as a PDF file.');
+                window.print();
+            }, 300);
+        }
+
+        function toggleDontShowAgain() {
+            const checkbox = document.getElementById('dontShowAgain');
+            checkbox.checked = !checkbox.checked;
+        }
+
+        function openDownloadModal() {
+            document.getElementById('downloadModal').classList.add('active');
+        }
+
+        function closeDownloadModal() {
+            document.getElementById('downloadModal').classList.remove('active');
+        }
+
+        function downloadAsPDF() {
+            closeDownloadModal();
+            setTimeout(() => {
+                openPrintModal();
+            }, 300);
+        }
+
+        function downloadAsHTML() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'NewsWise_2026_Calendar.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            closeDownloadModal();
+        }
+
+        // Close modals when clicking outside
+        document.getElementById('downloadModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDownloadModal();
+            }
+        });
+
+        document.getElementById('printModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePrintModal();
+            }
+        });
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDownloadModal();
+                closePrintModal();
+            }
+        });
+    </script>
+
+</body>
+</html>
